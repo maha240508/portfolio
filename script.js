@@ -36,14 +36,22 @@ updateActiveLink();
 // ===== FOOTER YEAR =====
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// ===== PROFILE PHOTO (tries jpg, jpeg, png, webp in the images folder) =====
+// ===== PROFILE PHOTO =====
+// Looks for profile.jpg/.jpeg/.png/.webp in the images folder, then next to index.html
 const photo = document.getElementById("profilePhoto");
+const folders = ["images/", ""];
 const extensions = ["jpg", "jpeg", "png", "webp"];
-let extIndex = 0;
+const candidates = [];
+
+folders.forEach(folder => {
+    extensions.forEach(ext => candidates.push(folder + "profile." + ext));
+});
+
+let photoIndex = 0;
 
 function tryNextPhoto() {
-    if (extIndex >= extensions.length) return;
-    photo.src = "images/profile." + extensions[extIndex++];
+    if (photoIndex >= candidates.length) return;
+    photo.src = candidates[photoIndex++];
 }
 
 photo.addEventListener("load", () => { photo.style.visibility = "visible"; });
